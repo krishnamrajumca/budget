@@ -40,7 +40,6 @@
     "production": [
       ">0.2%",
       "not dead",
-      "not and_uc",
       "not op_mini all"
     ],
     "development": [
