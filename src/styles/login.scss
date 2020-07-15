@@ -1,0 +1,20 @@
+.login{
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .login-card{
+      max-width: 350px;
+      min-width: 300px;
+      text-align: center;
+      
+    }
+    .MuiCardHeader-root{
+      background-color: chocolate;
+    }
+    .signup_here{
+      font-size: .8rem;
+      text-decoration: underline;
+      color:#36c2f0;
+    }
+  }
