@@ -6,29 +6,26 @@ import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
 import IconButton from '@material-ui/core/IconButton';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
-import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { useHistory } from 'react-router-dom'
-import Grid from '@material-ui/core/Grid';
 import RouteConfig from '../router';
 import {config} from '../utils/routerConfig'
-const drawerWidth = 240;
+import $ from 'jquery'
+const drawerWidth = 180;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
   },
   drawer: {
-    display:'none'
+    // display:'none'
   },
   appBar: {
     
@@ -44,11 +41,16 @@ const useStyles = makeStyles((theme) => ({
      display:'flex',
      justifyContent:'center',
      alignItems:'center',
-     height:'100%'
+     height:'100%',
+     width:'100%'
  },
   toolbar: theme.mixins.toolbar,
   drawerPaper: {
     width: drawerWidth,
+  },
+  customToolbar:{
+    borderRight:'none',
+    backgroundColor:'chocolate'
   },
   content: {
     flexGrow: 1,
@@ -66,20 +68,33 @@ const Home = (props) =>{
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+const location = history.location.pathname;
+console.log(location)
+const setActiveLink = (e,link)=>{
+  setMobileOpen(false);
+    $(".nav_link").removeClass("active");
 
+    $(`#nav${link.id}`).addClass("active");
+  console.log(e,link,history);
+  history.push(`${link.path}`)
+}
   const drawer = (
     <div>
-      <div className={classes.toolbar} >
+      <div className={`${classes.toolbar} customToolbar`} >
           Title
           </div>
       <Divider />
-      <List>
-        {drawerList.map((link, index) => (
-          <ListItem button key={link.name} onClick={()=>history.push(`/${link.path}`)}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+      <List className="paddingTB0">
+        {drawerList.map((link, index) => {
+          const cls = location.toLocaleLowerCase() === link.path.toLocaleLowerCase() ? "nav_link active" : "nav_link";
+          console.log(location,link.path)
+          return(
+
+          <ListItem button key={link.name} id={`nav${link.id}`} className={cls} onClick={(e)=>setActiveLink(e,link)}>
+            <ListItemIcon><link.icon/></ListItemIcon>
             <ListItemText primary={link.name} />
           </ListItem>
-        ))}
+        )})}
       </List>
       
     </div>
@@ -92,8 +107,7 @@ const Home = (props) =>{
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-        <Grid container>
-        <Grid item xs={2}>
+        
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -103,27 +117,13 @@ const Home = (props) =>{
           >
             <MenuIcon />
           </IconButton>
-          </Grid>
-          <Grid item xs={8}>
           <Typography variant="h6" noWrap className={classes.appBarTitle}>
              Home Budget
           </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <IconButton
-                color="inherit"
-                aria-label="open drawer"
-                edge="end"
-                onClick={handleDrawerToggle}
-                className={classes.menuButton}
-            >
-            <PowerSettingsNewIcon />
-          </IconButton>
-          </Grid>
-          </Grid>
+          
         </Toolbar>
       </AppBar>
-      <nav className={classes.drawer} aria-label="mailbox folders">
+      <nav id="drawerNav" className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
         <Hidden smUp implementation="css">
           <Drawer
@@ -135,6 +135,7 @@ const Home = (props) =>{
             classes={{
               paper: classes.drawerPaper,
             }}
+            id="drawerlist"
             ModalProps={{
               keepMounted: true, // Better open performance on mobile.
             }}
@@ -156,8 +157,10 @@ const Home = (props) =>{
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
+        <div id="content-block">
+          <RouteConfig/>
+        </div>
         
-        <RouteConfig/>
       </main>
     </div>
   );

@@ -1,23 +1,25 @@
 import React from "react";
-import Dashboard from "../dashboard";
-import Items from "../items";
+
 import {
   Switch,
   Route,
   
 } from "react-router-dom";
-
+import {config} from '../utils/routerConfig'
 const RouteConfig = ()=> {
+  const route = config.slice(3);
   return (
-       
-
-        <Switch>
-          <Route path="/dashboard/">
-            <Dashboard/>
-          </Route>
-          <Route path="/dashboard/items">
-            <Items/>
-          </Route>
+       <Switch>
+          {
+            route.map(r=>{
+              const Component = r.component
+              return(
+                <Route exact={r.exact} path={r.path} key={r.id}>
+                  <Component/>
+                </Route>
+              )
+            })
+          }
         </Switch>
   );
 }

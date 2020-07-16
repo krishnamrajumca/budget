@@ -28,7 +28,7 @@ function App() {
                 MainConfig.map(con=>{
                   const Component = con.component;
                   return(
-                    <Route exact path={con.path} key={con.id}>
+                    <Route exact={con.exact} path={con.path} key={con.id}>
                       <Component />
                   </Route>
                   )
