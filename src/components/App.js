@@ -34,16 +34,7 @@ function App() {
                   )
                 })
               }
-              {/* <Route exact path={config[0].path}>
-                <Login/>
-              </Route>
-              <Route exact path="/signup">
-                <Register />
-              </Route>
-              <Route  path="/dashboard">
-                <Home/>
-                
-              </Route> */}
+              
             </Switch>
           </div>
       </Container>
